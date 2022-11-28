@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f8ebd3e6830647a5a7887d9588c718ec" Name="Diagram1">
+        <EntityTypeShape EntityType="GymProject.Group" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymProject.HistoMember" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymProject.Member" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymProject.Membership" Width="1.5" PointX="8.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymProject.MembershipType" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymProject.Session" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymProject.Trainer" Width="1.5" PointX="6" PointY="6.5" IsExpanded="true" />
+        <AssociationConnector Association="GymProject.FK_Group_Members" ManuallyRouted="false" />
+        <AssociationConnector Association="GymProject.FK_Group_Session" ManuallyRouted="false" />
+        <AssociationConnector Association="GymProject.FK_Member_histo" ManuallyRouted="false" />
+        <AssociationConnector Association="GymProject.FK_Member_Memberships" ManuallyRouted="false" />
+        <AssociationConnector Association="GymProject.FK_Trainer_Memberships" ManuallyRouted="false" />
+        <AssociationConnector Association="GymProject.FK_type_Memberships" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

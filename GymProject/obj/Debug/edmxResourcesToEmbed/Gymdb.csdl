@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GymProject" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameGroupe" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Members" Relationship="Self.FK_Group_Members" FromRole="Groups" ToRole="Members" />
+    <NavigationProperty Name="Sessions" Relationship="Self.FK_Group_Session" FromRole="Groups" ToRole="Session" />
+  </EntityType>
+  <EntityType Name="HistoMember">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="Enterdate" Type="DateTime" Precision="0" />
+    <Property Name="Leavedate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_Member_histo" FromRole="HistoMember" ToRole="Members" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="3" />
+    <Property Name="Gender" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+    <Property Name="Adress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="GroupID" Type="Int32" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Group_Members" FromRole="Members" ToRole="Groups" />
+    <NavigationProperty Name="HistoMembers" Relationship="Self.FK_Member_histo" FromRole="Members" ToRole="HistoMember" />
+    <NavigationProperty Name="Memberships" Relationship="Self.FK_Member_Memberships" FromRole="Members" ToRole="Memberships" />
+  </EntityType>
+  <EntityType Name="Membership">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="Int32" Nullable="false" />
+    <Property Name="TrainerId" Type="Int32" Nullable="false" />
+    <Property Name="MembershipType" Type="Int32" Nullable="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_Member_Memberships" FromRole="Memberships" ToRole="Members" />
+    <NavigationProperty Name="Trainer" Relationship="Self.FK_Trainer_Memberships" FromRole="Memberships" ToRole="Trainers" />
+    <NavigationProperty Name="MembershipType1" Relationship="Self.FK_type_Memberships" FromRole="Memberships" ToRole="MembershipType" />
+  </EntityType>
+  <EntityType Name="MembershipType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Memberships" Relationship="Self.FK_type_Memberships" FromRole="MembershipType" ToRole="Memberships" />
+    <Property Name="TrainerBonus" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="Session">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupID" Type="Int32" />
+    <Property Name="Day" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Group_Session" FromRole="Session" ToRole="Groups" />
+  </EntityType>
+  <EntityType Name="Trainer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="3" />
+    <Property Name="Gender" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Memberships" Relationship="Self.FK_Trainer_Memberships" FromRole="Trainers" ToRole="Memberships" />
+  </EntityType>
+  <Association Name="FK_Group_Members">
+    <End Role="Groups" Type="Self.Group" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Members" Type="Self.Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Members">
+        <PropertyRef Name="GroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Group_Session">
+    <End Role="Groups" Type="Self.Group" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Session" Type="Self.Session" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Session">
+        <PropertyRef Name="GroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_histo">
+    <End Role="Members" Type="Self.Member" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HistoMember" Type="Self.HistoMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HistoMember">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_Memberships">
+    <End Role="Members" Type="Self.Member" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Memberships" Type="Self.Membership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Memberships">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Trainer_Memberships">
+    <End Role="Trainers" Type="Self.Trainer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Memberships" Type="Self.Membership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trainers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Memberships">
+        <PropertyRef Name="TrainerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_type_Memberships">
+    <End Role="MembershipType" Type="Self.MembershipType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Memberships" Type="Self.Membership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MembershipType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Memberships">
+        <PropertyRef Name="MembershipType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GymdatabaseEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="HistoMembers" EntityType="Self.HistoMember" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="Memberships" EntityType="Self.Membership" />
+    <EntitySet Name="MembershipTypes" EntityType="Self.MembershipType" />
+    <EntitySet Name="Sessions" EntityType="Self.Session" />
+    <EntitySet Name="Trainers" EntityType="Self.Trainer" />
+    <AssociationSet Name="FK_Group_Members" Association="Self.FK_Group_Members">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="Members" EntitySet="Members" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Group_Session" Association="Self.FK_Group_Session">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="Session" EntitySet="Sessions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_histo" Association="Self.FK_Member_histo">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="HistoMember" EntitySet="HistoMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_Memberships" Association="Self.FK_Member_Memberships">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="Memberships" EntitySet="Memberships" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Trainer_Memberships" Association="Self.FK_Trainer_Memberships">
+      <End Role="Trainers" EntitySet="Trainers" />
+      <End Role="Memberships" EntitySet="Memberships" />
+    </AssociationSet>
+    <AssociationSet Name="FK_type_Memberships" Association="Self.FK_type_Memberships">
+      <End Role="MembershipType" EntitySet="MembershipTypes" />
+      <End Role="Memberships" EntitySet="Memberships" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
